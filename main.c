@@ -1,6 +1,5 @@
 #include <stdio.h>
 #include <string.h>
-#include <ctype.h>
 
 #define NUM_EQUIPOS 4
 #define NUM_PARTIDOS 6
@@ -22,9 +21,13 @@ void limpiarBuffer() {
     while ((c = getchar()) != '\n' && c != EOF);
 }
 
+int esDigito(char c) {
+    return c >= '0' && c <= '9';
+}
+
 int esNumeroPositivo(const char *cadena) {
     for (int i = 0; cadena[i] != '\0'; i++) {
-        if (!isdigit(cadena[i])) {
+        if (!esDigito(cadena[i])) {
             return 0;
         }
     }
