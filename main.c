@@ -25,7 +25,7 @@ int esDigito(char c) {
     return c >= '0' && c <= '9';
 }
 
-int esNumeroPositivo(const char *cadena) {
+int esNumeroPositivo(char cadena[]) {
     for (int i = 0; cadena[i] != '\0'; i++) {
         if (!esDigito(cadena[i])) {
             return 0;
@@ -34,16 +34,13 @@ int esNumeroPositivo(const char *cadena) {
     return 1;
 }
 
-int leerGoles(const char* mensaje) {
+int leerGoles(char mensaje[MAX_NOMBRE]) {
     char entrada[20];
     int valor;
     while (1) {
         printf("%s", mensaje);
         if (fgets(entrada, sizeof(entrada), stdin)) {
-            size_t len = strlen(entrada);
-            if (entrada[len - 1] == '\n') {
-                entrada[len - 1] = '\0';
-            }
+            entrada[strcspn(entrada, "\n")] = '\0';  // Eliminar el salto de línea
             if (esNumeroPositivo(entrada)) {
                 sscanf(entrada, "%d", &valor);
                 return valor;
@@ -53,15 +50,13 @@ int leerGoles(const char* mensaje) {
     }
 }
 
-int leerOpcion(const char* mensaje) {
+int leerOpcion(char mensaje[MAX_NOMBRE]) {
     char entrada[10];
     int valor;
     while (1) {
         printf("%s", mensaje);
         if (fgets(entrada, sizeof(entrada), stdin)) {
-            if (entrada[strlen(entrada) - 1] == '\n') {
-                entrada[strlen(entrada) - 1] = '\0';
-            }
+            entrada[strcspn(entrada, "\n")] = '\0';  // Eliminar el salto de línea
             if (esNumeroPositivo(entrada)) {
                 sscanf(entrada, "%d", &valor);
                 return valor;
@@ -82,10 +77,7 @@ void ingresarNombres() {
         while (1) {
             printf("Equipo %d: ", i + 1);
             if (fgets(nombres[i], MAX_NOMBRE, stdin)) {
-                size_t len = strlen(nombres[i]);
-                if (len > 0 && nombres[i][len - 1] == '\n') {
-                    nombres[i][len - 1] = '\0';
-                }
+                nombres[i][strcspn(nombres[i], "\n")] = '\0';  // Eliminar el salto de línea
                 if (strlen(nombres[i]) > 0) break;
             }
             printf("Nombre no valido. Intente nuevamente.\n");
